@@ -1,5 +1,4 @@
 document.addEventListener("DOMContentLoaded", function () {
-  console.log("załadowano");
   const rootElement = document.querySelector("#root");
   const sections = document.querySelectorAll("section");
   let currentSectionIndex = 0;
@@ -14,6 +13,16 @@ document.addEventListener("DOMContentLoaded", function () {
     }, 1000);
 
     const direction = e.wheelDelta < 0 ? 1 : -1;
+    scroll(direction);
+  });
+
+  function scrollToCurrentSection() {
+    sections[currentSectionIndex].scrollIntoView({
+      behavior: "smooth",
+      block: "start",
+    });
+  }
+  function scroll(direction) {
     if (direction === 1) {
       const isLastSection = currentSectionIndex === sections.length - 1;
       if (isLastSection) return;
@@ -22,12 +31,6 @@ document.addEventListener("DOMContentLoaded", function () {
       if (firstSection) return;
     }
     currentSectionIndex += direction;
-    console.log(currentSectionIndex);
-    sections[currentSectionIndex].scrollIntoView({
-      behavior: "smooth",
-      block: "start",
-    });
-  });
-
-  console.log(sections);
+    scrollToCurrentSection();
+  }
 });
