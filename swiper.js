@@ -14,7 +14,6 @@ class Swiper {
     };
   }
   startTouch(event) {
-    // event.preventDefault();
     this.initialX = event.touches[0].clientX;
     this.initialY = event.touches[0].clientY;
   }
