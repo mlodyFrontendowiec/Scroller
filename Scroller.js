@@ -10,7 +10,7 @@ class Scroller {
     );
     this.currentSectionIndex = Math.max(currentSectionIndex, 0);
     this.isThrottled = false;
-    // this.isScrolledIntoView(this.sections[0]);
+    this.drawNavigation();
   }
   isScrolledIntoView(el) {
     const rect = el.getBoundingClientRect();
@@ -46,9 +46,42 @@ class Scroller {
     this.scrollToCurrentSection();
   };
   scrollToCurrentSection = () => {
+    this.selectActiveItem();
     this.sections[this.currentSectionIndex].scrollIntoView({
       behavior: "smooth",
       block: "start",
     });
+  };
+  drawNavigation = () => {
+    this.navigatonContainer = document.createElement("aside");
+    this.navigatonContainer.setAttribute("class", "scroller__navigation");
+    const list = document.createElement("ul");
+
+    this.sections.forEach((section, index) => {
+      const listItem = document.createElement("li");
+      listItem.addEventListener("click", () => {
+        this.currentSectionIndex = index;
+        this.scrollToCurrentSection();
+      });
+
+      list.appendChild(listItem);
+    });
+    this.navigatonContainer.appendChild(list);
+
+    document.body.appendChild(this.navigatonContainer);
+
+    this.selectActiveItem();
+  };
+  selectActiveItem = () => {
+    if (this.navigatonContainer) {
+      const navigationItems = document.querySelectorAll("li");
+      navigationItems.forEach((item, index) => {
+        if (index == this.currentSectionIndex) {
+          item.classList.add("active");
+        } else {
+          item.classList.remove("active");
+        }
+      });
+    }
   };
 }
